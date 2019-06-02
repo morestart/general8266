@@ -3,7 +3,6 @@
 #include <PubSubClient.h>
 #include <FS.h>
 #include <Arduino.h>
-#include "light.h"
 #include "definitions.h"
 
 
@@ -100,10 +99,9 @@ void callback(char *topic, byte *payload, int length) {
     Serial.println(receivedChar);
 
     // TODO: 消息处理任务
-    if (strcmp(topic, command_topic) == 0) {
-        processWs2812Data(receivedChar);
-        // digitalWrite(D5, HIGH);
-    }
+    // if (strcmp(topic, command_topic) == 0) {
+    //     processWs2812Data(receivedChar);
+    // }
 }
 
 void connectMqtt(char server[], char name[], char password[], char port[]) {
