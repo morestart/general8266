@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include "wifi.h"
 #include "mqtt.h"
-#include "light.h"
 #include "definitions.h"
 #include <DHTesp.h>
 #include <ArduinoJson.h>
@@ -19,7 +18,6 @@ Ticker publishDhtData(dhtData, 5000);
 
 void dhtData() {
   publishMessage("dht", data);
-  publishMessage(availability_topic, "online");
 }
 
 void setup() {
@@ -31,15 +29,12 @@ void setup() {
   loadWifiWebConfig();
   loadConfig();
   dht.setup(D3, DHTesp::DHT11);
-
-  setWs2812();
-  subscribeTopic(command_topic);
 }
 
 void loop() {
   // 更新定时器
   publishDhtData.update();
-  startService();
+
   int code = keepMqttConnect();
   
   if (code == 1) {
