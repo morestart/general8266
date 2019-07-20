@@ -1,6 +1,17 @@
 ArduinoJson: change log
 =======================
 
+v6.11.2 (2019-07-08)
+-------
+
+* Fixed assignment of `JsonDocument` to `JsonVariant` (issue #1023)
+* Fix invalid conversion error on Particle Argon (issue #1035)
+
+v6.11.1 (2019-06-21)
+-------
+
+* Fixed `serialized()` not working with Flash strings (issue #1030)
+
 v6.11.0 (2019-05-26)
 -------
 
