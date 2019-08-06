@@ -4,13 +4,11 @@
 #include <WiFiManager.h>
 #include "definitions.h"
 
-
 // mqtt config info
 char mqtt_user[30];
 char mqtt_password[30];
 char mqtt_server[20];
-char mqtt_port[10] = "1883";
-
+char mqtt_port[5] = "1883";
 
 // save config flag, default is false
 bool shouldSaveConfig = false;
@@ -18,9 +16,11 @@ WiFiManager wifiManager;
 
 // clean SPIFS json data and reset wifi infomation
 // this function will restart esp8266
-void clean() {
+void clean()
+{
     wifiManager.resetSettings();
     SPIFFS.format();
+    
 }
 
 // this function will set save flag to true
@@ -30,7 +30,8 @@ void saveConfigCallback()
     shouldSaveConfig = true;
 }
 
-void loadWifiWebConfig() {
+void loadWifiWebConfig()
+{
     wifiManager.setSaveConfigCallback(saveConfigCallback);
 
     wifiManager.setTimeout(300);
@@ -64,7 +65,7 @@ void loadWifiWebConfig() {
     if (shouldSaveConfig)
     {
         Serial.println("saving config");
-        // TODO: 长度不够会引起内容不全的bug
+        // TODO: 
         DynamicJsonDocument doc(1024);
 
         doc["mqtt_server"] = mqtt_server;

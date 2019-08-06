@@ -1,7 +1,7 @@
 #ifndef _WIFI_H
 #define _WIFI_H
 
-extern void loadWifiWebConfig();
-extern void clean();
+void loadWifiWebConfig();
+void clean();
 
 #endif

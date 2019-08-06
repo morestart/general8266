@@ -1,52 +1,46 @@
 #include <Arduino.h>
+// #include <ArduinoJson.h>
+#include <Ticker.h>
 #include "wifi.h"
 #include "mqtt.h"
 #include "definitions.h"
-#include <DHTesp.h>
-#include <ArduinoJson.h>
-#include <Ticker.h>
+#include "button.h"
 
-
-void dhtData();
-
-char data[40];
-
-DHTesp dht;
 
 // 创建定时器
-Ticker publishDhtData(dhtData, 5000);
+// Ticker flashSPIFSData(getButtonDown, 100);
 
-void dhtData() {
-  publishMessage("dht", data);
+// char data[20];
+
+void setup()
+{
+	
+	Serial.begin(115200);
+	initButton();
+	// 开启定时器
+	// flashSPIFSData.start();
+	// clean();
+	loadWifiWebConfig();
+	loadConfig();
 }
 
-void setup() {
-  // 开启定时器
-  publishDhtData.start();
-  Serial.begin(115200);
-  // clean();
-  
-  loadWifiWebConfig();
-  loadConfig();
-  dht.setup(D3, DHTesp::DHT11);
-}
+void loop()
+{
+	// 更新定时器
+	// flashSPIFSData.update();
 
-void loop() {
-  // 更新定时器
-  publishDhtData.update();
+	int code = keepMqttConnect();
 
-  int code = keepMqttConnect();
-  
-  if (code == 1) {
-    Serial.println("re subscribe");
-    subscribeTopic(command_topic);
-  }
-  int hum = dht.getHumidity();
-  int tem = dht.getTemperature();
-  
-  StaticJsonDocument<200> doc;
-  doc["temperature"] = tem;
-  doc["humidity"] = hum;
-  
-  serializeJson(doc, data);
+	if (code == 1)
+	{
+		Serial.println("re subscribe");
+		subscribeTopic(command_topic);
+	}
+
+	getButtonDown();
+	// StaticJsonDocument<200> doc;
+	// doc["temperature"] = 10;
+	// doc["humidity"] = 20;
+
+	// serializeJson(doc, data);
 }

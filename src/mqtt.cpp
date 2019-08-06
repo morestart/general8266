@@ -5,8 +5,6 @@
 #include <Arduino.h>
 #include "definitions.h"
 
-
-
 void loadConfig();
 void callback(char *topic, byte *payload, int length);
 void connectMqtt(char server[], char name[], char password[], char port[]);
@@ -14,8 +12,6 @@ void reconnect();
 int keepMqttConnect();
 void subscribeTopic(char topic[]);
 void publishMessage();
-
-
 
 extern char mqtt_user[30];
 extern char mqtt_password[30];
@@ -25,8 +21,8 @@ extern char mqtt_port[10];
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-
-void loadConfig() {
+void loadConfig()
+{
     if (SPIFFS.begin())
     {
         Serial.println("mounted file system");
@@ -46,7 +42,6 @@ void loadConfig() {
                 configFile.readBytes(buf.get(), size);
                 // DynamicJsonBuffer jsonBuffer;
                 // JsonObject &json = jsonBuffer.parseObject(buf.get());
-
 
                 DynamicJsonDocument json(1024);
                 DeserializationError error = deserializeJson(json, buf.get());
@@ -75,14 +70,15 @@ void loadConfig() {
             SPIFFS.format();
             ESP.restart();
         }
-    }   
+    }
     else
     {
         Serial.println("failed to mount FS");
     }
 }
 
-void callback(char *topic, byte *payload, int length) {
+void callback(char *topic, byte *payload, int length)
+{
     int i;
     Serial.print("Message in topic: ");
     Serial.println(topic);
@@ -104,7 +100,8 @@ void callback(char *topic, byte *payload, int length) {
     // }
 }
 
-void connectMqtt(char server[], char name[], char password[], char port[]) {
+void connectMqtt(char server[], char name[], char password[], char port[])
+{
     int _port = atoi(port);
 
     client.setServer(server, _port);
@@ -129,11 +126,10 @@ void connectMqtt(char server[], char name[], char password[], char port[]) {
             delay(2000);
         }
     }
-
-
 }
 
-void reconnect() {
+void reconnect()
+{
     // keep the cycle until esp8266 connected the mqtt server
     while (!client.connected())
     {
@@ -157,8 +153,9 @@ void reconnect() {
     }
 }
 
-int keepMqttConnect() {
-    
+int keepMqttConnect()
+{
+
     if (!client.connected())
     {
         reconnect();
@@ -168,10 +165,12 @@ int keepMqttConnect() {
     return 0;
 }
 
-void publishMessage(char topic[], char data[]) { 
-    client.publish(topic, data); 
+void publishMessage(const char topic[], const char data[])
+{
+    client.publish(topic, data);
 }
 
-void subscribeTopic(char topic[]) { 
-    client.subscribe(topic);    
+void subscribeTopic(const char topic[])
+{
+    client.subscribe(topic);
 }
