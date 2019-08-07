@@ -4,6 +4,7 @@
 #include <FS.h>
 #include <Arduino.h>
 #include "definitions.h"
+#include "processdata.h"
 
 void loadConfig();
 void callback(char *topic, byte *payload, int length);
@@ -83,7 +84,7 @@ void callback(char *topic, byte *payload, int length)
     Serial.print("Message in topic: ");
     Serial.println(topic);
     Serial.println();
-    char receivedChar[100];
+    char receivedChar[1024];
     for (i = 0; i < length; i++)
     {
         receivedChar[i] = (char)payload[i];
@@ -93,8 +94,9 @@ void callback(char *topic, byte *payload, int length)
 
     Serial.print("message: ");
     Serial.println(receivedChar);
-
     // TODO: 消息处理任务
+    processData(receivedChar);
+
     // if (strcmp(topic, command_topic) == 0) {
     //     processWs2812Data(receivedChar);
     // }
