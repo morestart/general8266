@@ -9,19 +9,19 @@ void loadConfig();
 void callback(char *topic, byte *payload, int length);
 void connectMqtt(char server[], char name[], char password[], char port[]);
 void reconnect();
-int keepMqttConnect();
-void subscribeTopic(char topic[]);
+void keepMqttConnect();
+void subscribeTopic(const char topic[]);
 void publishMessage();
 
-extern char mqtt_user[30];
-extern char mqtt_password[30];
-extern char mqtt_server[20];
-extern char mqtt_port[10];
+char mqttUser[30];
+char mqttPassword[30];
+char mqttServer[20];
+char mqttPort[10];
 
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-void loadConfig()
+void loadMQTTConfig()
 {
     if (SPIFFS.begin())
     {
@@ -50,13 +50,13 @@ void loadConfig()
                 {
                     Serial.println("\nparsed json");
 
-                    strcpy(mqtt_server, json["mqtt_server"]);
-                    strcpy(mqtt_port, json["mqtt_port"]);
-                    strcpy(mqtt_user, json["mqtt_user_name"]);
-                    strcpy(mqtt_password, json["mqtt_password"]);
+                    strcpy(mqttServer, json["mqtt_server"]);
+                    strcpy(mqttPort, json["mqtt_port"]);
+                    strcpy(mqttUser, json["mqtt_user_name"]);
+                    strcpy(mqttPassword, json["mqtt_password"]);
 
                     //连接mqtt
-                    connectMqtt(mqtt_server, mqtt_user, mqtt_password, mqtt_port);
+                    connectMqtt(mqttServer, mqttUser, mqttPassword, mqttPort);
                 }
                 else
                 {
@@ -141,6 +141,8 @@ void reconnect()
         if (client.connect(ID))
         {
             Serial.println("connected");
+            // TODO:掉线重订阅
+            subscribeTopic(command_topic);
         }
         else
         {
@@ -153,17 +155,26 @@ void reconnect()
     }
 }
 
-int keepMqttConnect()
-{
 
+// TODO:但应用可以直接在此函数内重订阅
+void keepMqttConnect()
+{
     if (!client.connected())
     {
         reconnect();
-        return 1;
     }
     client.loop();
-    return 0;
 }
+
+// void offlineResubscribe() {
+//     int code = keepMqttConnect();
+
+// 	if (code == 1)
+// 	{
+// 		Serial.println("re subscribe");
+// 		subscribeTopic(command_topic);
+// 	}
+// }
 
 void publishMessage(const char topic[], const char data[])
 {
