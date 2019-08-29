@@ -3,5 +3,6 @@
 
 void processData(const char* data)
 {
+    Serial.println(data);
     publishMessage("ok", "hello");
 }
