@@ -25,6 +25,22 @@
     |----tree.py
 ```
 
+## 依赖树
+
+```
+|-- <ArduinoJson> 6.11.4      
+|-- <PubSubClient> 2.7        
+|-- <ESP8266WiFi> 1.0
+|-- <ESP8266WebServer> 1.0    
+|   |-- <ESP8266WiFi> 1.0     
+|-- <WifiManager> 0.14        
+|   |-- <DNSServer> 1.1.1     
+|   |   |-- <ESP8266WiFi> 1.0 
+|   |-- <ESP8266WebServer> 1.0
+|   |   |-- <ESP8266WiFi> 1.0 
+|   |-- <ESP8266WiFi> 1.0  
+```
+
 ## 代码说明
 
 ```c
