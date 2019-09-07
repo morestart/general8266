@@ -40,6 +40,6 @@ void processData(const char* topic, const char* data)
         }
     }
     else {
-        Serial.println("NO topic match");
+        Serial.println("No topic match");
     }
 }

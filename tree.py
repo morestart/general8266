@@ -1,5 +1,8 @@
-from pathlib import Path
-
+try:
+    from pathlib import Path
+except ImportError:
+    print("use Python3 to run this program")
+    exit(1)
 
 tree_str = ''
 
