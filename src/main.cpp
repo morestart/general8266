@@ -1,10 +1,9 @@
 #include <Arduino.h>
-// #include <ArduinoJson.h>
-// #include <Ticker.h>
 #include "wifi.h"
 #include "mqtt.h"
 #include "definitions.h"
 #include "button.h"
+#include "processdata.h"
 
 
 void setup()
@@ -13,10 +12,13 @@ void setup()
 	initButton();
 	loadWifiWebConfig();
 	loadMQTTConfig();
+	initTimer();
+	subscribeTopic_();
 }
 
 void loop()
 {
 	keepMqttConnect();
 	getButtonDown();
+	loopTimer();
 }
