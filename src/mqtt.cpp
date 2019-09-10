@@ -95,11 +95,7 @@ void callback(char *topic, byte *payload, int length)
     Serial.print("message: ");
     Serial.println(receivedChar);
     // TODO: 消息处理任务
-    processData(receivedChar);
-
-    // if (strcmp(topic, command_topic) == 0) {
-    //     processWs2812Data(receivedChar);
-    // }
+    processData(topic ,receivedChar);
 }
 
 void connectMqtt(char server[], char name[], char password[], char port[])
@@ -142,9 +138,9 @@ void reconnect()
 
         if (client.connect(ID))
         {
-            Serial.println("connected");
+            Serial.println("re connected");
             // TODO:掉线重订阅
-            subscribeTopic(command_topic);
+            subscribeTopic_();
         }
         else
         {
@@ -158,7 +154,6 @@ void reconnect()
 }
 
 
-// TODO:但应用可以直接在此函数内重订阅
 void keepMqttConnect()
 {
     if (!client.connected())
@@ -168,15 +163,6 @@ void keepMqttConnect()
     client.loop();
 }
 
-// void offlineResubscribe() {
-//     int code = keepMqttConnect();
-
-// 	if (code == 1)
-// 	{
-// 		Serial.println("re subscribe");
-// 		subscribeTopic(command_topic);
-// 	}
-// }
 
 void publishMessage(const char topic[], const char data[])
 {
