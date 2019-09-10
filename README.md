@@ -85,6 +85,6 @@ void loop()
 
 你需要开发的:
    - 添加定时器(需要的话) 修改 `void initTimer()`内容
-   - 发布主题, (`void publishTopic_()`)函数可以随意修改, 甚至修改函数名或者启动定时器定时发布主题和内容
-   - 订阅主题, (`void subscribeTopic_()`)这个函数不能随意修改,因为主函数中调用了这个函数在初始化时进行主题订阅
-   - 数据处理, (`void processData(const char* topic, const char* data)`)这个函数中会传入监听到的发往mqtt broker的订阅的主题的topic和data.你可以根据传入的主题和数据进行进一步的处理
+   - 发布主题, `void publishTopic_()`函数可以随意修改, 甚至修改函数名或者启动定时器定时发布主题和内容
+   - 订阅主题, `void subscribeTopic_()`这个函数不能随意修改,因为主函数中调用了这个函数在初始化时进行主题订阅
+   - 数据处理, `void processData(const char* topic, const char* data)`这个函数中会传入监听到的发往mqtt broker的订阅的主题的topic和data.你可以根据传入的主题和数据进行进一步的处理
