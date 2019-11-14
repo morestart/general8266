@@ -9,16 +9,15 @@
 void setup()
 {
 	Serial.begin(115200);
+	// clean();
 	initButton();
 	loadWifiWebConfig();
 	loadMQTTConfig();
-	initTimer();
+	// initTimer();
 	subscribeTopic_();
 }
-
 void loop()
 {
 	keepMqttConnect();
 	getButtonDown();
-	loopTimer();
 }
