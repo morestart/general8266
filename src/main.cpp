@@ -4,12 +4,15 @@
 #include "definitions.h"
 #include "button.h"
 #include "processdata.h"
+#include "sensor.h"
 
 
 void setup()
 {
-	Serial.begin(115200);
+	Serial.begin(9600);
+	// clean();
 	initButton();
+	dhtSetup();
 	loadWifiWebConfig();
 	loadMQTTConfig();
 	initTimer();

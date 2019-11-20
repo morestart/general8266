@@ -20,13 +20,14 @@ void clean()
 {
     wifiManager.resetSettings();
     SPIFFS.format();
-    
 }
 
 // this function will set save flag to true
 void saveConfigCallback()
 {
+#if LOG
     Serial.println("Should save config");
+#endif
     shouldSaveConfig = true;
 }
 
@@ -52,7 +53,9 @@ void loadWifiWebConfig()
 
     if (!wifiManager.autoConnect(AP_NAME, AP_PASS))
     {
+#if LOG
         Serial.println("Failed to connect and hit timeout");
+#endif
         delay(3000);
         ESP.restart();
         delay(5000);
@@ -64,8 +67,10 @@ void loadWifiWebConfig()
 
     if (shouldSaveConfig)
     {
+#if LOG
         Serial.println("saving config");
-        // TODO: 
+#endif
+        // TODO:
         DynamicJsonDocument doc(1024);
 
         doc["mqtt_server"] = mqtt_server;
@@ -75,13 +80,17 @@ void loadWifiWebConfig()
 
         if (!SPIFFS.begin())
         {
+#if LOG
             Serial.println("Failed to mount file system");
+#endif
             return;
         }
         File configFile = SPIFFS.open("/config.json", "w");
         if (!configFile)
         {
+#if LOG
             Serial.println("Failed to open config file for writing");
+#endif
         }
         serializeJson(doc, Serial);
         serializeJson(doc, configFile);
