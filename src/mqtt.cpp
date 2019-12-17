@@ -94,7 +94,6 @@ void callback(char *topic, byte *payload, int length)
 
     Serial.print("message: ");
     Serial.println(receivedChar);
-    // TODO: 消息处理任务
     processData(topic ,receivedChar);
 }
 
@@ -136,10 +135,9 @@ void reconnect()
         char ID[20];
         ltoa(ESP.getChipId(), ID, 10);
 
-        if (client.connect(ID))
+        if (client.connect(ID, mqttUser, mqttPassword))
         {
             Serial.println("re connected");
-            // TODO:掉线重订阅
             subscribeTopic_();
         }
         else
