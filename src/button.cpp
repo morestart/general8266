@@ -12,7 +12,6 @@ void initButton()
 void getButtonDown()
 {
     while(digitalRead(pinInterrupt) == LOW) {
-        delay(200);
         count ++;
         if (count >= 25) { //>=5s
             Serial.println("Long Key"); 
@@ -22,5 +21,4 @@ void getButtonDown()
         }
       }
     count = 0;
-    delay(200);
 }
