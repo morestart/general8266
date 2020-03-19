@@ -3,7 +3,7 @@
 #include <FS.h>
 #include <WiFiManager.h>
 #include "definitions.h"
-
+// char willTopic[], int willQos, int willRetain, char willMessage[]
 // mqtt config info
 char mqtt_user[30];
 char mqtt_password[30];
@@ -20,7 +20,6 @@ void clean()
 {
     wifiManager.resetSettings();
     SPIFFS.format();
-    
 }
 
 // this function will set save flag to true
