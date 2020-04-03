@@ -113,7 +113,7 @@ void connectMqtt(char server[], char name[], char password[], char port[])
         ltoa(ESP.getChipId(), ID, 10);
 
         // TODO: 固定遗言
-        if (client.connect(ID, name, password, "lwt", 0, 0, "offline"))
+        if (client.connect(ID, name, password, "lwt", 0, false, "offline"))
         {
             Serial.println("connected");
         }
@@ -136,7 +136,7 @@ void reconnect()
         char ID[20];
         ltoa(ESP.getChipId(), ID, 10);
 
-        if (client.connect(ID, mqttUser, mqttPassword, "lwt", 0, 0, "offline"))
+        if (client.connect(ID, mqttUser, mqttPassword, "lwt", 0, false, "offline"))
         {
             Serial.println("re connected");
             subscribeTopic_();
